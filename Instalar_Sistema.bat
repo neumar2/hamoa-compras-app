@@ -50,9 +50,20 @@ if %errorlevel% neq 0 (
     echo [OK] Docker detectado.
 )
 
-:: 3. Garante que o serviço do Docker inicie (em caso de Docker Engine)
-echo Iniciando os servicos do Docker...
-net start com.docker.service >nul 2>&1
+:: 3. Garante que o serviço do Docker inicie e aguarda ele ficar pronto
+echo Iniciando o Docker Desktop...
+if exist "C:\Program Files\Docker\Docker\Docker Desktop.exe" (
+    start "" "C:\Program Files\Docker\Docker\Docker Desktop.exe"
+)
+
+echo Aguardando o motor do Docker ligar (isso pode levar um minutinho]...
+:waitDocker
+docker info >nul 2>&1
+if %errorlevel% neq 0 (
+    timeout /t 3 /nobreak >nul
+    goto waitDocker
+)
+echo [OK] Motor do Docker esta rodando!
 
 :: 4. Inicializa o Sistema
 echo.
