@@ -54,12 +54,12 @@ Após o sistema carregar, ele criará automaticamente um administrador de fábri
 
 ---
 
-## 💾 Backups e Dados
+## 💾 Persistência de Dados e Backups
 
-Você não precisa se preocupar em perder dados caso reinicie o PC:
+Todos os seus dados estão 100% seguros:
+- O banco de dados e os arquivos (boletos/notas fiscais) são salvos permanentemente no disco físico do seu computador através de volumes do Docker.
 - O sistema já vem com uma ferramenta de **Disaster Recovery (Backup/Restore)** na aba de configurações. 
-- Você gera o Backup em `.zip` e restaura diretamente pela interface gráfica, sem precisar digitar códigos.
-- O Docker salva todos os seus anexos e notas fiscais numa pasta invisível e protegida no seu disco.
+- Você pode gerar um Backup Completo em `.zip` e restaurá-lo diretamente pela interface gráfica do sistema.
 
 ---
 
