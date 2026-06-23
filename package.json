@@ -1,0 +1,9 @@
+{
+  "name": "hamoa-compras-app",
+  "version": "1.0.0",
+  "description": "Hamoa Resort Purchasing System - Root Orchestrator",
+  "private": true,
+  "scripts": {
+    "qa:verify": "npm --prefix frontend run qa:verify"
+  }
+}

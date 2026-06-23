@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  # ==========================================
+  # Banco de Dados Relacional
+  # ==========================================
+  db:
+    image: postgres:17-alpine
+    container_name: hamoa_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: hamoa123
+      POSTGRES_DB: hamoa_compras
+    volumes:
+      # Mantém os dados do banco a salvo mesmo que o container seja apagado
+      - ./data/pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # ==========================================
+  # Aplicação Principal (Frontend + Backend)
+  # ==========================================
+  app:
+    build: .
+    container_name: hamoa_app
+    restart: always
+    depends_on:
+      - db
+    environment:
+      - PORT=5000
+      - DB_DIALECT=postgres
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=hamoa_compras
+      - DB_USER=postgres
+      - DB_PASS=hamoa123
+      - JWT_SECRET=hamoasecretkey123
+    volumes:
+      # Mantém as notas fiscais e boletos a salvo no disco do servidor host
+      - ./uploads:/app/backend/uploads
+      # Mantém os backups gerados pela interface salvos no disco
+      - ./backups:/app/backups
+    ports:
+      - "5000:5000"
