@@ -4,24 +4,17 @@ chcp 65001 >nul
 title Instalador - Compras App
 
 :: 1. Solicita Privilégios de Administrador
-fsutil dirty query %systemdrive% >nul 2>&1
-if %errorlevel% neq 0 (
-    echo =====================================================
-    echo SOLICITANDO PRIVILEGIOS DE ADMINISTRADOR...
-    echo =====================================================
-    goto UACPrompt
-) else ( goto gotAdmin )
+if "%~1"=="ELEVATED" goto gotAdmin
 
-:UACPrompt
-    echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
-    echo UAC.ShellExecute "cmd.exe", "/c """"%~s0""""", "", "runas", 1 >> "%temp%\getadmin.vbs"
-    cscript //nologo "%temp%\getadmin.vbs"
-    exit /B
+echo =====================================================
+echo SOLICITANDO PRIVILEGIOS DE ADMINISTRADOR...
+echo =====================================================
+powershell -Command "Start-Process cmd -ArgumentList '/c', '\"\"%~dpnx0\"\" ELEVATED' -Verb RunAs"
+exit /B
 
 :gotAdmin
-    if exist "%temp%\getadmin.vbs" ( del "%temp%\getadmin.vbs" )
-    pushd "%CD%"
-    CD /D "%~dp0"
+pushd "%CD%"
+CD /D "%~dp0"
 
 echo =====================================================
 echo       BEM VINDO AO INSTALADOR DO COMPRAS APP
