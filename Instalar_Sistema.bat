@@ -24,7 +24,7 @@ echo Verificando dependencias no seu servidor...
 echo.
 
 :: 1.5 Verifica se o WSL (Windows Subsystem for Linux) está instalado
-wsl --status >nul 2>&1
+wsl --help >nul 2>&1
 if %errorlevel% neq 0 (
     echo [!] Componente WSL (necessario para o Docker) nao encontrado.
     echo Iniciando a ativacao automatica do WSL...
