@@ -23,25 +23,6 @@ echo.
 echo Verificando dependencias no seu servidor...
 echo.
 
-:: 1.5 Verifica se o WSL (Windows Subsystem for Linux) está instalado
-wsl --help >nul 2>&1
-if %errorlevel% neq 0 (
-    echo [!] Componente WSL (necessario para o Docker) nao encontrado.
-    echo Iniciando a ativacao automatica do WSL...
-    wsl --install --no-distribution
-    echo.
-    echo =====================================================
-    echo AVISO IMPORTANTE: REINICIAR O COMPUTADOR
-    echo =====================================================
-    echo O Windows ativou o recurso WSL, mas exige que voce reinicie o PC.
-    echo Por favor, reinicie o computador e DEPOIS abra este arquivo novamente.
-    echo.
-    pause
-    exit /B
-) else (
-    echo [OK] WSL detectado.
-)
-
 :: 2. Verifica se o Docker existe
 docker --version >nul 2>&1
 if %errorlevel% neq 0 (
@@ -52,13 +33,17 @@ if %errorlevel% neq 0 (
         curl -L -o "Docker Desktop Installer.exe" "https://desktop.docker.com/win/main/amd64/Docker%%20Desktop%%20Installer.exe"
     )
     
-    echo Iniciando instalacao silenciosa do Docker...
-    echo Por favor, aguarde. Pode demorar alguns minutos e a tela pode piscar.
-    start /wait "" "Docker Desktop Installer.exe" install --quiet --accept-license
+    echo =====================================================
+    echo ABRINDO O INSTALADOR OFICIAL DO DOCKER
+    echo =====================================================
+    echo Uma janela do Docker vai se abrir. Siga as instrucoes na tela, 
+    echo deixe a opcao "Use WSL 2" marcada e clique em OK.
+    echo Se o Docker pedir para reiniciar o PC no final, reinicie e rode este script novamente.
+    echo Aguardando a conclusao da instalacao...
+    start /wait "" "Docker Desktop Installer.exe" install
     
     echo.
-    echo [!] IMPORTANTE: O Docker foi instalado. 
-    echo Pode ser necessario reiniciar o computador e rodar este arquivo novamente.
+    echo [!] IMPORTANTE: O Docker terminou a instalacao. 
     echo Pressione qualquer tecla para continuar e tentar iniciar o sistema...
     pause >nul
 ) else (
